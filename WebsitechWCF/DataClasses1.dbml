@@ -1,1 +1,69 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Database1" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Database1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Administrator" Member="Administrators">
+    <Type Name="Administrator">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="orgName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="orgEmail" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="VarChar(1024)" CanBeNull="true" />
+      <Column Name="businessID" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Administrator_Event" Member="Events" ThisKey="Id" OtherKey="organizer" Type="Event" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Event" Member="Events">
+    <Type Name="Event">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="eventName" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="category" Type="System.String" DbType="VarChar(1024) NOT NULL" CanBeNull="false" />
+      <Column Name="capacity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="organizer" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Event_Ticket" Member="Tickets" ThisKey="Id" OtherKey="eventID" Type="Ticket" />
+      <Association Name="Administrator_Event" Member="Administrator" ThisKey="organizer" OtherKey="Id" Type="Administrator" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ticket" Member="Tickets">
+    <Type Name="Ticket">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="[price ]" Member="price_" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="clientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="eventID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Ticket_Cart" Member="Carts" ThisKey="Id" OtherKey="ticketID" Type="Cart" />
+      <Association Name="Event_Ticket" Member="Event" ThisKey="eventID" OtherKey="Id" Type="Event" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Client" Member="Clients">
+    <Type Name="Client">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="surname" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="phoneNumber" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="gender" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="studentNumber" Type="System.String" DbType="VarChar(9) NOT NULL" CanBeNull="false" />
+      <Column Name="faculty" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Client_Cart" Member="Carts" ThisKey="Id" OtherKey="clientID" Type="Cart" />
+    </Type>
+  </Table>
+  <Table Name="dbo.saleHistory" Member="saleHistories">
+    <Type Name="saleHistory">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ticketID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="clientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cart" Member="Carts">
+    <Type Name="Cart">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ticketID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="clientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="isSuccess" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Client_Cart" Member="Client" ThisKey="clientID" OtherKey="Id" Type="Client" IsForeignKey="true" />
+      <Association Name="Ticket_Cart" Member="Ticket" ThisKey="ticketID" OtherKey="Id" Type="Ticket" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
