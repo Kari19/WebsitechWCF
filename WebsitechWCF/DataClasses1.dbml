@@ -49,21 +49,23 @@
       <Association Name="Client_Cart" Member="Carts" ThisKey="Id" OtherKey="clientID" Type="Cart" />
     </Type>
   </Table>
-  <Table Name="dbo.saleHistory" Member="saleHistories">
-    <Type Name="saleHistory">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ticketID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="clientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
   <Table Name="dbo.Cart" Member="Carts">
     <Type Name="Cart">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ticketID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="clientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="isSuccess" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Cart_saleHistory" Member="saleHistories" ThisKey="Id" OtherKey="ticketID" Type="saleHistory" />
       <Association Name="Client_Cart" Member="Client" ThisKey="clientID" OtherKey="Id" Type="Client" IsForeignKey="true" />
       <Association Name="Ticket_Cart" Member="Ticket" ThisKey="ticketID" OtherKey="Id" Type="Ticket" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.saleHistory" Member="saleHistories">
+    <Type Name="saleHistory">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ticketID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="clientID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Cart_saleHistory" Member="Cart" ThisKey="ticketID" OtherKey="Id" Type="Cart" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
